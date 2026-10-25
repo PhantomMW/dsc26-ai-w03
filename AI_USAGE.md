@@ -1,16 +1,29 @@
-# AI usage
+# AI Usage Disclosure
 
-<!-- Replace every comment below with your own words. Short is fine. The grader checks only
-     that this file exists and has been changed from this template; your Track Mentor reads it. -->
+## Tools Used
 
-## Tools I used, and for what
+Generative AI assistance was used during development to help review the task requirements, discuss implementation approaches, draft Python code, identify potential edge cases, and prepare project documentation.
 
-<!-- e.g. "Claude for the pipeline skeleton; Copilot autocomplete in time_split" -->
+VS Code and the project terminal were used to edit the code, run tests, and inspect the results.
 
-## AI-suggested code I rejected or fixed in add_history_features or time_split
+## How AI Assistance Was Verified
 
-<!-- What was wrong, and which test (public, your own, or a grader test name) showed it. -->
+AI-suggested implementation changes were checked against the project requirements and tested locally.
 
-## How I checked that my model has no leak
+The implementation was evaluated using the provided pytest suite, additional checks for chronological splitting and customer-history features, and experiments comparing the model against a prior-only dummy baseline on three synthetic-data seeds.
 
-<!-- One sentence. -->
+## Example of an Issue Reviewed
+
+The customer-history implementation was reviewed to ensure that parcels with identical creation timestamps do not count as prior parcels for one another.
+
+An additional review also identified that the prior-parcel count should include earlier parcels even when their failure label is missing. The implementation was updated to count all earlier parcels while counting observed failures separately.
+
+## Leakage Prevention
+
+The feature list excludes the parcel identifier and fields recorded after the delivery outcome, including `courier_notes`, `delivered_at`, and `failed`.
+
+The evaluation uses a chronological train/test split, and the model is fitted only on the training partition before evaluation on the test partition.
+
+## Limitations
+
+Passing local tests and obtaining positive results on synthetic data do not guarantee that all hidden grading tests will pass or that the model will generalize to real-world deliveries.
